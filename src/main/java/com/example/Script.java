@@ -6,6 +6,7 @@ import org.kie.api.runtime.process.ProcessWorkItemHandlerException;
 public class Script {
     public static void handleStrategy(ProcessContext kcontext) {
         String strategy = (String) kcontext.getVariable("strategy");
+        System.out.println(">>>>>> strategy "+strategy);
         ProcessWorkItemHandlerException pwihe = (ProcessWorkItemHandlerException) kcontext.getVariable("Error");
         pwihe = new ProcessWorkItemHandlerException(pwihe.getProcessId(), ProcessWorkItemHandlerException.HandlingStrategy.valueOf(strategy), pwihe.getCause());
         kcontext.setVariable("Error", pwihe);
