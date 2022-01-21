@@ -19,8 +19,8 @@ The REST call raise an exception that is handled by the following process:
 
 ![error-handling](src/main/resources/error-handling-svg.svg)
 
-The error handling process trigger a retry strategy 2 times after 5 seconds of delay, then it trigger a human task to manually remediate the error.
-The human task can trigger two strategies:
+The error handling process triggers a **retry strategy** once after 5 seconds of delay.
 
-- change the URL of the REST call and **retry**: potentially any feature of the failing service can changed by the user before retry.
-- provide the result manually and **complete**: the main process will take the result provided by the user as the it came from REST call.
+Since the REST call fails again the _error handling_ process is launched again, the retry counter now is 0, so the logic rethrow the error back to the main process.
+
+In the main process the error is caught and finally trigger the compensation.
