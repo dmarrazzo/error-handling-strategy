@@ -16,18 +16,15 @@ public class Script {
         ProcessWorkItemHandlerException pwihe = (ProcessWorkItemHandlerException) kcontext.getVariable("Error");
         pwihe = new ProcessWorkItemHandlerException(pwihe.getProcessId(), ProcessWorkItemHandlerException.HandlingStrategy.RETHROW, pwihe.getCause());
         kcontext.setVariable("Error", pwihe);
-        kcontext.setVariable("retry", 0);
-        kcontext.setVariable("RetryOnError", "0");
+        kcontext.setVariable("RetryOnError", 0);
     }
 
     public static void decreaseRetry(ProcessContext kcontext) {
-        var retryOnError = (String) kcontext.getVariable("RetryOnError");
-        var retryOnErrorInt = Integer.parseInt(retryOnError);
+        var retryOnError = (Integer) kcontext.getVariable("RetryOnError");
         ProcessWorkItemHandlerException pwihe = (ProcessWorkItemHandlerException) kcontext.getVariable("Error");
-        pwihe = new ProcessWorkItemHandlerException(pwihe.getProcessId(), ProcessWorkItemHandlerException.HandlingStrategy.RETRY, pwihe.getCause(), retryOnErrorInt);
+        pwihe = new ProcessWorkItemHandlerException(pwihe.getProcessId(), ProcessWorkItemHandlerException.HandlingStrategy.RETRY, pwihe.getCause(), retryOnError);
         kcontext.setVariable("Error", pwihe);                
-        retryOnErrorInt--;
-        kcontext.setVariable("RetryOnError", Integer.toString(retryOnErrorInt));
-        kcontext.setVariable("retry", retryOnErrorInt);
+        retryOnError--;
+        kcontext.setVariable("RetryOnError", retryOnError);
    }
 }
